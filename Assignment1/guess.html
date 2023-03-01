@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <title>Guess the Number Game</title>
+  </head>
+  <link rel="stylesheet" href="index.css">
+  <body class="gamebody">
+    <h1>Guess the Number Game</h1>
+    <p id="message">I have chosen a number between 1 and 100. Can you guess it in 10 turns?</p>
+    <p id="guesses">Your previous guesses:</p>
+    <input type="number" id="guessInput">
+    <button id="guessButton">Guess</button>
+    <button id="resetButton" >Reset</button>
+
+    <style>
+        body{
+            background-color: black;
+            color: white;
+            text-align: center;
+            justify-content: center;
+            margin: 25rem 0;
+        }
+    </style>
+    <script>
+      const message = document.querySelector("#message");
+      const guesses = document.querySelector("#guesses");
+      const guessInput = document.querySelector("#guessInput");
+      const guessButton = document.querySelector("#guessButton");
+      const resetButton = document.querySelector("#resetButton");
+      const element1 = document.getElementById("#guessInput");
+
+      let number = Math.floor(Math.random() * 100) + 1;
+      let turnsLeft = 10;
+      let turnsTook = 1;
+      let previousGuesses = [];
+
+      guessButton.addEventListener("click", function() {
+        if (turnsLeft > 0) {
+          let guess = parseInt(guessInput.value);
+          previousGuesses.push(guess);
+
+          if (guess === number) {
+            message.innerHTML = "You got it in "+ turnsTook +"Turns ! The number was " + number + ".";
+            guessButton.disabled = true;
+          } else {
+            turnsLeft--;
+            turnsTook++;
+            if (guess < number) {
+              message.innerHTML = "Your guess was too low. You have " + turnsLeft + " turns left.";
+            } else {
+              message.innerHTML = "Your guess was too high. You have " + turnsLeft + " turns left.";
+            }
+          }
+
+          guesses.innerHTML = "Your previous guesses: " + previousGuesses.join(", ");
+        } else {
+          message.innerHTML = "You ran out of turns! The number was " + number + ".";
+          guessButton.disabled = true;
+        }
+      });
+
+      resetButton.addEventListener("click", function() {
+        number = Math.floor(Math.random() * 100) + 1;
+        turnsLeft = 10;
+        previousGuesses = [];
+        message.innerHTML = "I have chosen a number between 1 and 100. Can you guess it in 10 turns?";
+        guessButton.disabled = false;
+        document.getElementById('guessInput').value = '';
+        guesses.innerHTML = "Your previous guesses:";
+      });
+    </script>
+  </body>
+</html>
